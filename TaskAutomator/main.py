@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 from tkinter import ttk
 from actions import Actions
 from project_explorer import ProjectExplorer
@@ -8,6 +9,7 @@ from canvas import Canvas
 from resources import Resources
 from properties import Properties
 from cardbutton import Imgbutton
+from global_instance import *
 
 class MainApplication():
     def __init__(self, *args, **kwargs):
@@ -40,7 +42,7 @@ class MainApplication():
         self.middle_pane = ttk.Frame(self.panedwindow, height = (root.winfo_screenheight() - 140), relief = tk.SUNKEN)
         self.right_pane = ttk.Frame(self.panedwindow, height = (root.winfo_screenheight() - 140), relief = tk.SUNKEN)
         self.panedwindow.add(self.left_pane, weight = 1)
-        self.panedwindow.add(self.middle_pane, weight = 3) 
+        self.panedwindow.add(self.middle_pane, weight = 2) 
         self.panedwindow.add(self.right_pane, weight = 2)
 
         self.panedwindow_left = ttk.Panedwindow(self.left_pane, orient = tk.VERTICAL)
@@ -58,13 +60,18 @@ class MainApplication():
         self.panewindow_middle.add(self.pane_resources, weight = 1)
 
         self.menubar = Menubar(self.parent)
-        self.toolbar = Toolbar(self.pane_canvas)
-        self.project_explorer = ProjectExplorer(self.pane_projects)
-        self.canvas = Canvas()
-        self.canvas.create_Ui(self.pane_canvas)
         self.properties = Properties(self.right_pane)
+        self.canvas = Canvas(self.properties)
+        self.toolbar = Toolbar(self.pane_canvas, self.canvas)
+        self.project_explorer = ProjectExplorer(self.pane_projects)
+        self.canvas.create_Ui(self.pane_canvas)
         self.actions = Actions(self.pane_actions, self.canvas, self.properties)
         self.resources = Resources(self.pane_resources)
+    
+    def delete_files(self):
+        dir = my_path + 'files\\'
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -72,6 +79,7 @@ if __name__ == "__main__":
     main_app.create_main_ui(root)
     main_app.paned_window()
     root.mainloop()
+    main_app.delete_files()
 
 
 
