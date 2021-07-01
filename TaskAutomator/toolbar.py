@@ -1,12 +1,18 @@
 import tkinter as tk
+import os
 from tkinter import ttk
+from merge_xmls import merge_xmls
+from global_instance import *
 
 class Toolbar(ttk.Frame):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, canvas, *args, **kwargs):
         ttk.Frame.__init__(self, parent , *args, **kwargs)
         self.parent_frame = parent
+        self.canvas = canvas
+        self.merge_xml_files = merge_xmls(self.canvas)
+        self.file_path = my_path
 
-        self.toolbarFrame = ttk.Frame(self.parent_frame, relief = tk.SUNKEN)
+        self.toolbarFrame = ttk.Frame(self.parent_frame, width=780, relief = tk.SUNKEN)
         self.toolbarFrame.pack(anchor = tk.CENTER, fill = tk.X, side = tk.TOP)
 
 
@@ -25,7 +31,7 @@ class Toolbar(ttk.Frame):
         self.btnRedo = tk.Button(self.toolbarFrame, text = "Redo", padx = 5, pady = 5)
         self.btnRedo.grid(row=0, column=4, padx = 5, pady = 5)
 
-        self.btnRun = tk.Button(self.toolbarFrame, text = "Run", padx = 5, pady = 5)
+        self.btnRun = tk.Button(self.toolbarFrame, text = "Run", padx = 5, pady = 5, command= self.run_script)
         self.btnRun.grid(row=0, column=5, padx = 5, pady = 5)
 
         self.btnStop = tk.Button(self.toolbarFrame, text = "Stop", padx = 5, pady = 5)
@@ -34,7 +40,7 @@ class Toolbar(ttk.Frame):
         self.btnStep = tk.Button(self.toolbarFrame, text = "Step Info", padx = 5, pady = 5)
         self.btnStep.grid(row=0, column=7, padx = 5, pady = 5)
 
-        self.btnSave = tk.Button(self.toolbarFrame, text = "Save", padx = 5, pady = 5)
+        self.btnSave = tk.Button(self.toolbarFrame, text = "Save", padx = 5, pady = 5, command=self.merge_xml_files.read_xmls)
         self.btnSave.grid(row=0, column=8, padx = 5, pady = 5)
 
         self.btnDelete = tk.Button(self.toolbarFrame, text = "Delete", padx = 5, pady = 5)
@@ -45,3 +51,6 @@ class Toolbar(ttk.Frame):
 
         self.btnZoomOut = tk.Button(self.toolbarFrame, text = "Zoom Out", padx = 5, pady = 5)
         self.btnZoomOut.grid(row=0, column=11, padx = 5, pady = 5)
+
+    def run_script(self):
+         os.system('python ' + self.file_path + 'readxml.py')
