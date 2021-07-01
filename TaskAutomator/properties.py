@@ -401,5 +401,153 @@ class Properties(ttk.Frame):
             f.write(xmlstr)
     
 
+    def excel_set_formula(self, new_card):
+        self.reset_all('Set Formula')
+        self.lbl_session = Label(self.parent_frame, text="Session Name:")
+        self.entry_session = Entry(self.parent_frame, width = 30)
+
+        self.lbl_sheet_name = Label(self.parent_frame, text="Sheet Name:")
+        self.entry_sheet_name = Entry(self.parent_frame, width = 30)
+
+        self.lbl_formula = Label(self.parent_frame, text="Formula:")
+        self.entry_formula = Entry(self.parent_frame, width = 30)
+
+        self.lbl_cell = Label(self.parent_frame, text="Cell:")
+        self.entry_cell = Entry(self.parent_frame, width = 30)
+
+
+        self.lbl_session.grid(row = 1, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_session.grid(row = 1, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_sheet_name.grid(row = 2, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_sheet_name.grid(row = 2, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_formula.grid(row = 3, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_formula.grid(row = 3, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_cell.grid(row = 4, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_cell.grid(row = 4, column = 1, padx = 10, pady = 10, sticky=NW)
+
+        btn_save = Button(self.parent_frame, text="Save", command = lambda: self.save_excel_set_formula(new_card))
+        btn_save.grid(row = 5, column = 0, padx = 10, pady = 10, sticky=W)
+
+        session, sheetname, cell, formula = self.read_file_from_xml.read_xml_excel_set_formula(new_card)
+        self.entry_session.insert(0, session)
+        self.entry_sheet_name.insert(0, sheetname)
+        self.entry_cell.insert(0, cell)
+        self.entry_formula.insert(0, formula)
+    
+    def save_excel_merge_unmerge(self, new_card):
+
+        root = xml.Element('root')
+        session = xml.Element('session')
+        sheetname = xml.Element('sheetname')
+        merge_unmerge = xml.Element('merge_unmerge')
+        from_cell = xml.Element('from_cell')
+        to_cell = xml.Element('to_cell')
+        session.text = self.entry_session.get()
+        sheetname.text = self.entry_sheet_name.get()
+        if(self.var_merge_unmerge.get() == 'merge'):
+            merge_unmerge.text = 'merge'
+        elif(self.var_merge_unmerge.get() == 'unmerge'):
+            merge_unmerge.text = 'unmerge'
+        from_cell.text = self.entry_from_cell.get()
+        to_cell.text = self.entry_to_cell.get()
+        action = xml.Element('action')
+        action.text = "excel_merge_unmerge"
+        root.append(action)
+        root.append(session)
+        root.append(sheetname)
+        root.append(merge_unmerge)
+        root.append(from_cell)
+        root.append(to_cell)
+        tree = xml.ElementTree(root)
+        
+        from xml.dom import minidom
+        save_path_file = self.path + "\\" + new_card + ".xml"
+        xmlstr = minidom.parseString(xml.tostring(root)).toprettyxml(indent="   ")
+        with open(save_path_file, "w") as f:
+            f.write(xmlstr)
+    
+    def excel_merge_unmerge(self, new_card):
+        self.reset_all('Merge Unmerge')
+        self.lbl_session = Label(self.parent_frame, text="Session Name:")
+        self.entry_session = Entry(self.parent_frame, width = 30)
+
+        self.lbl_sheet_name = Label(self.parent_frame, text="Sheet Name:")
+        self.entry_sheet_name = Entry(self.parent_frame, width = 30)
+
+        self.var_merge_unmerge = StringVar()
+        self.my_merge = Checkbutton(self.parent_frame, text="Merge", variable=self.var_merge_unmerge, onvalue="merge", offvalue="off", anchor = 'w')
+        self.my_merge.deselect()
+        self.my_unmerge = Checkbutton(self.parent_frame, text="Unmerge", variable=self.var_merge_unmerge, onvalue="unmerge", offvalue="off", anchor = 'w')
+        self.my_unmerge.deselect()
+
+        self.lbl_from_cell = Label(self.parent_frame, text="From Cell:")
+        self.entry_from_cell = Entry(self.parent_frame, width = 30)
+
+        self.lbl_to_cell = Label(self.parent_frame, text="To Cell:")
+        self.entry_to_cell = Entry(self.parent_frame, width = 30)
+
+
+        self.lbl_session.grid(row = 1, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_session.grid(row = 1, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_sheet_name.grid(row = 2, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_sheet_name.grid(row = 2, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.my_merge.grid(row = 3, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.my_unmerge.grid(row = 3, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_from_cell.grid(row = 4, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_from_cell.grid(row = 4, column = 1, padx = 10, pady = 10, sticky=NW)
+        self.lbl_to_cell.grid(row = 5, column = 0, padx = 10, pady = 10, sticky=NW)
+        self.entry_to_cell.grid(row = 5, column = 1, padx = 10, pady = 10, sticky=NW)
+
+        btn_save = Button(self.parent_frame, text="Save", command = lambda: self.save_excel_merge_unmerge(new_card))
+        btn_save.grid(row = 9, column = 0, padx = 10, pady = 10, sticky=W)
+
+        session, sheetname, merge_unmerge, from_cell, to_cell = self.read_file_from_xml.read_xml_excel_merge_unmerge(new_card)
+        self.entry_session.insert(0, session)
+        self.entry_sheet_name.insert(0, sheetname)
+        if(merge_unmerge == "merge"):
+            self.my_merge.select()
+        elif(merge_unmerge == "unmerge"):
+            self.my_unmerge.select()
+        self.entry_from_cell.insert(0, from_cell)
+        self.entry_to_cell.insert(0, to_cell)
+
+    def save_excel_copy_paste(self, new_card):
+
+        root = xml.Element('root')
+        copy_session = xml.Element('copy_session')
+        copy_sheetname = xml.Element('copy_sheetname')
+        copy_start = xml.Element('copy_start')
+        copy_end = xml.Element('copy_end')
+        paste_session = xml.Element('paste_session')
+        paste_sheetname = xml.Element('paste_sheetname')
+        paste_start = xml.Element('paste_start')
+        paste_end = xml.Element('paste_end')
+        copy_session.text = self.entry_copy_session.get()
+        copy_sheetname.text = self.entry_copy_sheet_name.get()
+        copy_start.text = self.entry_copy_start.get()
+        copy_end.text = self.entry_copy_end.get()
+        paste_session.text = self.entry_paste_session.get()
+        paste_sheetname.text = self.entry_paste_sheet_name.get()
+        paste_start.text = self.entry_paste_start.get()
+        paste_end.text = self.entry_paste_end.get()
+        action = xml.Element('action')
+        action.text = "excel_copy_paste"
+        root.append(action)
+        root.append(copy_session)
+        root.append(copy_sheetname)
+        root.append(copy_start)
+        root.append(copy_end)
+        root.append(paste_session)
+        root.append(paste_sheetname)
+        root.append(paste_start)
+        root.append(paste_end)
+        tree = xml.ElementTree(root)
+        
+        from xml.dom import minidom
+        save_path_file = self.path + "\\" + new_card + ".xml"
+        xmlstr = minidom.parseString(xml.tostring(root)).toprettyxml(indent="   ")
+        with open(save_path_file, "w") as f:
+            f.write(xmlstr)
+
 
         
