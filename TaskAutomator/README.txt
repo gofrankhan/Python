@@ -1,4 +1,4 @@
-TaskAutomator is a python based project
+TaskAutomator is a python based project, tkinter, pyautogui, openpyxl and selenium used
 MIT Final project 6 credit course
   - Automate Excel Sheet
   - Automate Web Applications
