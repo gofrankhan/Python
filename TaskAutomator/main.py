@@ -42,8 +42,8 @@ class MainApplication():
         self.middle_pane = ttk.Frame(self.panedwindow, height = (root.winfo_screenheight() - 140), relief = tk.SUNKEN)
         self.right_pane = ttk.Frame(self.panedwindow, height = (root.winfo_screenheight() - 140), relief = tk.SUNKEN)
         self.panedwindow.add(self.left_pane, weight = 1)
-        self.panedwindow.add(self.middle_pane, weight = 2) 
-        self.panedwindow.add(self.right_pane, weight = 2)
+        self.panedwindow.add(self.middle_pane, weight = 1) 
+        self.panedwindow.add(self.right_pane, weight = 10)
 
         self.panedwindow_left = ttk.Panedwindow(self.left_pane, orient = tk.VERTICAL)
         self.panedwindow_left.pack(expand = True, fill = tk.BOTH)
@@ -55,7 +55,7 @@ class MainApplication():
         self.panewindow_middle = ttk.PanedWindow(self.middle_pane, orient = tk.VERTICAL)
         self.panewindow_middle.pack(expand = True, fill = tk.BOTH)
         self.pane_canvas = ttk.Frame(self.panewindow_middle, relief = tk.SUNKEN)
-        self.pane_resources = ttk.Frame(self.panewindow_middle, width = 400, relief = tk.SUNKEN)
+        self.pane_resources = ttk.Frame(self.panewindow_middle, width = 100, relief = tk.SUNKEN)
         self.panewindow_middle.add(self.pane_canvas, weight = 5)
         self.panewindow_middle.add(self.pane_resources, weight = 1)
 

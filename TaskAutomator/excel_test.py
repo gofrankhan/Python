@@ -45,8 +45,8 @@ class MyExcel():
     def excel_set_value(session, sheetname, cell, value):
         wb = xl_wb_dict[session]
         ws = wb.get_sheet_by_name(sheetname)
-        print(cell, value)
-        ws[cell] = value
+        ws[variable_dict[cell]] = variable_dict[value]
+        print(cell, value, variable_dict[value], variable_dict[cell])
         wb.save(xl_loc_dict[session])
     
     def excel_get_value(session, sheetname, cell, variable):

@@ -6,7 +6,7 @@ class Resources(ttk.Frame):
         ttk.Frame.__init__(self, parent , *args, **kwargs)
         self.parent_frame = parent
 
-        self.tabControl = ttk.Notebook(self.parent_frame, height = 140)
+        self.tabControl = ttk.Notebook(self.parent_frame, width=640, height = 140)
 
         self.variables_tab = ttk.Frame(self.tabControl)
         self.console_tab = ttk.Frame(self.tabControl)

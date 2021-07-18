@@ -12,7 +12,7 @@ class Toolbar(ttk.Frame):
         self.merge_xml_files = merge_xmls(self.canvas)
         self.file_path = my_path
 
-        self.toolbarFrame = ttk.Frame(self.parent_frame, width=780, relief = tk.SUNKEN)
+        self.toolbarFrame = ttk.Frame(self.parent_frame, width=640, relief = tk.SUNKEN)
         self.toolbarFrame.pack(anchor = tk.CENTER, fill = tk.X, side = tk.TOP)
 
 

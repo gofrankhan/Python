@@ -1,3 +1,4 @@
+from tkinter import Variable
 from xml.dom import minidom
 import os.path
 from global_instance import *
@@ -18,31 +19,71 @@ class ReadFileFromXML():
             return url[0].firstChild.data, browser[0].firstChild.data, session[0].firstChild.data    
         return "", "Google Chrome", ""
 
+    def read_xml_close_browser(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            session = mydoc.getElementsByTagName('session')
+            return session[0].firstChild.data    
+        return ""
+    def read_xml_navigation(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            navigation = mydoc.getElementsByTagName('navigation')
+            return navigation[0].firstChild.data    
+        return ""
+    
+    def read_xml_switch_to(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            switch_to = mydoc.getElementsByTagName('switch_to')
+            value = mydoc.getElementsByTagName('value')
+            return switch_to[0].firstChild.data, value[0].firstChild.data 
+        return "", ""
+
     def read_xml_click(self, new_card):
         path = self.file_path + new_card + '.xml'
         if(os.path.isfile(path)):
             mydoc = minidom.parse(path)
             item = mydoc.getElementsByTagName('root')
-            xpath = mydoc.getElementsByTagName('xpath')
-            return xpath[0].firstChild.data
-        return ""
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data
+        return "", ""
 
     def read_xml_clear(self, new_card):
         path = self.file_path + new_card + '.xml'
         if(os.path.isfile(path)):
             mydoc = minidom.parse(path)
             item = mydoc.getElementsByTagName('root')
-            xpath = mydoc.getElementsByTagName('xpath')
-            return xpath[0].firstChild.data
-        return ""  
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data
+        return "", "" 
 
     def read_xml_read_text(self, new_card):
         path = self.file_path + new_card + '.xml'
         if(os.path.isfile(path)):
             mydoc = minidom.parse(path)
             item = mydoc.getElementsByTagName('root')
-            xpath = mydoc.getElementsByTagName('xpath')
-            return xpath[0].firstChild.data
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
+            _variable = mydoc.getElementsByTagName('variable')
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data, _variable[0].firstChild.data
+        return "", "", ""
+    
+    def read_xml_message_box(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            _variable = mydoc.getElementsByTagName('variable')
+            return _variable[0].firstChild.data
         return ""
 
     def read_xml_input_text(self, new_card):
@@ -50,10 +91,11 @@ class ReadFileFromXML():
         if(os.path.isfile(path)):
             mydoc = minidom.parse(path)
             item = mydoc.getElementsByTagName('root')
-            xpath = mydoc.getElementsByTagName('xpath')
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
             value = mydoc.getElementsByTagName('value')
-            return xpath[0].firstChild.data, value[0].firstChild.data
-        return "", ""
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data, value[0].firstChild.data
+        return "", "", ""
 
     def read_xml_excel_open(self, new_card):
         path = self.file_path + new_card + '.xml'
@@ -184,6 +226,83 @@ class ReadFileFromXML():
             paste_end = mydoc.getElementsByTagName('paste_end')
             return copy_session[0].firstChild.data, copy_sheetname[0].firstChild.data, copy_start[0].firstChild.data, copy_end[0].firstChild.data, paste_session[0].firstChild.data, paste_sheetname[0].firstChild.data, paste_start[0].firstChild.data, paste_end[0].firstChild.data
         return "", "", "", "", "", "", "", ""
+    
+    def read_xml_select_option(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
+            select_by_name = mydoc.getElementsByTagName('select_by_name')
+            select_by_value = mydoc.getElementsByTagName('select_by_value')
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data, select_by_name[0].firstChild.data, select_by_value[0].firstChild.data
+        return "", "", "", ""
+    
+    def read_xml_drag_and_drop(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            locator_name = mydoc.getElementsByTagName('locator_name')
+            locator_value = mydoc.getElementsByTagName('locator_value')
+            locator_name_target = mydoc.getElementsByTagName('locator_name_target')
+            locator_value_target = mydoc.getElementsByTagName('locator_value_target')
+            return locator_name[0].firstChild.data, locator_value[0].firstChild.data, locator_name_target[0].firstChild.data, locator_value_target[0].firstChild.data
+        return "", "", "", ""
+
+    def read_xml_create_variable(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            variable_name = mydoc.getElementsByTagName('variable_name')
+            variable_value = mydoc.getElementsByTagName('variable_value')
+            return variable_name[0].firstChild.data, variable_value[0].firstChild.data
+        return "", ""
+
+    def read_xml_split_string(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            variable1 = mydoc.getElementsByTagName('variable1')
+            variable2 = mydoc.getElementsByTagName('variable2')
+            delimiter = mydoc.getElementsByTagName('delimiter')
+            return variable1[0].firstChild.data, variable2[0].firstChild.data, delimiter[0].firstChild.data
+        return "", "", ""
+    
+    def read_xml_manipulate_string(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            variable1 = mydoc.getElementsByTagName('variable1')
+            variable2 = mydoc.getElementsByTagName('variable2')
+            return variable1[0].firstChild.data, variable2[0].firstChild.data
+        return "", ""
+
+    def read_xml_concate_string(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            string1 = mydoc.getElementsByTagName('string1')
+            string2 = mydoc.getElementsByTagName('string2')
+            save_to = mydoc.getElementsByTagName('save_to')
+            return string1[0].firstChild.data, string2[0].firstChild.data, save_to[0].firstChild.data
+        return "", "", ""
+
+    def read_xml_increment_decrement(self, new_card):
+        path = self.file_path + new_card + '.xml'
+        if(os.path.isfile(path)):
+            mydoc = minidom.parse(path)
+            item = mydoc.getElementsByTagName('root')
+            _variable = mydoc.getElementsByTagName('_variable')
+            _variable_by = mydoc.getElementsByTagName('_variable_by')
+            save_to = mydoc.getElementsByTagName('save_to')
+            return _variable[0].firstChild.data, _variable_by[0].firstChild.data, save_to[0].firstChild.data
+        return "", "", ""
                                                                    
         
 

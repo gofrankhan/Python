@@ -22,9 +22,6 @@ class merge_xmls():
                     url_data = mydoc.getElementsByTagName('link')
                     browser_data = mydoc.getElementsByTagName('browser')
                     session_data = mydoc.getElementsByTagName('session')
-
-                    print(url_data[0].firstChild.data, browser_data[0].firstChild.data, session_data[0].firstChild.data)
-                    
                     action = xml.Element('Action')
                     session = xml.Element('session')
                     link = xml.Element('url')
@@ -37,41 +34,122 @@ class merge_xmls():
                     action.append(link)
                     action.append(browser)
                     root.append(action)
-                    
-                if(item[0].firstChild.data == "click"):
-                    xpath_data = mydoc.getElementsByTagName('xpath')
-                    print(xpath_data[0].firstChild.data)
+                if(item[0].firstChild.data == "close_browser"):
+                    session_data = mydoc.getElementsByTagName('session')
                     action = xml.Element('Action')
-                    xpath = xml.Element('xpath')
-                    xpath.text = xpath_data[0].firstChild.data
-                    action.set('type', 'click')
-                    action.append(xpath)
+                    session = xml.Element('session')
+                    action.set('type', 'close_browser')
+                    session.text = session_data[0].firstChild.data
+                    action.append(session)
                     root.append(action)
-                if(item[0].firstChild.data == "readtext"):
-                    xpath_data = mydoc.getElementsByTagName('xpath')
-                    variable_data = mydoc.getElementsByTagName('variable')
-                    print(xpath_data[0].firstChild.data)
+                if(item[0].firstChild.data == "navigation"):
+                    navigation_data = mydoc.getElementsByTagName('navigation')
                     action = xml.Element('Action')
-                    xpath = xml.Element('xpath')
+                    navigation = xml.Element('navigation')
+                    action.set('type', 'navigation')
+                    navigation.text = navigation_data[0].firstChild.data
+                    action.append(navigation)
+                    root.append(action)
+                if(item[0].firstChild.data == "click"):
+                    action = xml.Element('Action')
+                    action.set('type', 'click')
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
+                    root.append(action)
+                if(item[0].firstChild.data == "clear"):
+                    action = xml.Element('Action')
+                    action.set('type', 'clear')
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
+                    root.append(action)
+                if(item[0].firstChild.data == "readtext" or item[0].firstChild.data == "get_element" or item[0].firstChild.data == "get_elements"):
+                    variable_data = mydoc.getElementsByTagName('variable')
+                    action = xml.Element('Action')
                     variable_name = xml.Element('variable')
-                    xpath.text = xpath_data[0].firstChild.data
                     variable_name.text = variable_data[0].firstChild.data
-                    action.set('type', 'readtext')
-                    action.append(xpath)
+                    if(item[0].firstChild.data == "readtext"):
+                        action.set('type', 'readtext')
+                    elif(item[0].firstChild.data == "get_element"):
+                        action.set('type', 'get_element')
+                    elif(item[0].firstChild.data == "get_elements"):
+                        action.set('type', 'get_elements')
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
                     action.append(variable_name)
                     root.append(action)
                 if(item[0].firstChild.data == "inputtext"):
-                    xpath_data = mydoc.getElementsByTagName('xpath')
                     value_data = mydoc.getElementsByTagName('value')
-                    print(xpath_data[0].firstChild.data)
                     action = xml.Element('Action')
-                    xpath = xml.Element('xpath')
                     value = xml.Element('value')
-                    xpath.text = xpath_data[0].firstChild.data
                     value.text = value_data[0].firstChild.data
                     action.set('type', 'inputtext')
-                    action.append(xpath)
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
                     action.append(value)
+                    root.append(action)
+                if(item[0].firstChild.data == "select_option"):
+                    action = xml.Element('Action')
+                    action.set('type', 'select_option')
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    select_by_name_data = mydoc.getElementsByTagName('select_by_name')
+                    select_by_value_data = mydoc.getElementsByTagName('select_by_value')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    select_by_name = xml.Element('select_by_name')
+                    select_by_value = xml.Element('select_by_value')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    select_by_name.text = select_by_name_data[0].firstChild.data
+                    select_by_value.text = select_by_value_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
+                    action.append(select_by_name)
+                    action.append(select_by_value)
+                    root.append(action)
+                if(item[0].firstChild.data == "drag_and_drop"):
+                    action = xml.Element('Action')
+                    action.set('type', 'drag_and_drop')
+                    locator_name_data = mydoc.getElementsByTagName('locator_name')
+                    locator_value_data = mydoc.getElementsByTagName('locator_value')
+                    locator_name_target_data = mydoc.getElementsByTagName('locator_name_target')
+                    locator_value_target_data = mydoc.getElementsByTagName('locator_value_target')
+                    locator_name = xml.Element('locator_name')
+                    locator_value = xml.Element('locator_value')
+                    locator_name_target = xml.Element('locator_name_target')
+                    locator_value_target = xml.Element('locator_value_target')
+                    locator_name.text = locator_name_data[0].firstChild.data
+                    locator_value.text = locator_value_data[0].firstChild.data
+                    locator_name_target.text = locator_name_target_data[0].firstChild.data
+                    locator_value_target.text = locator_value_target_data[0].firstChild.data
+                    action.append(locator_name)
+                    action.append(locator_value)
+                    action.append(locator_name_target)
+                    action.append(locator_value_target)
                     root.append(action)
                 if(item[0].firstChild.data == "messagebox"):
                     variable_data = mydoc.getElementsByTagName('variable')
@@ -293,6 +371,106 @@ class merge_xmls():
                     action.append(paste_sheetname)
                     action.append(paste_start)
                     action.append(paste_end)
+                    root.append(action)
+                if(item[0].firstChild.data == "create_variable"):
+                    action = xml.Element('Action')
+                    action.set('type', 'create_variable')
+                    variable_name_data = mydoc.getElementsByTagName('variable_name')
+                    variable_value_data = mydoc.getElementsByTagName('variable_value')
+                    type_data = mydoc.getElementsByTagName('type')
+                    variable_name = xml.Element('variable_name')
+                    variable_value = xml.Element('variable_value')
+                    _type = xml.Element('type')
+                    variable_name.text = variable_name_data[0].firstChild.data
+                    variable_value.text = variable_value_data[0].firstChild.data
+                    _type.text = type_data[0].firstChild.data
+                    action.append(variable_name)
+                    action.append(variable_value)
+                    action.append(_type)
+                    root.append(action)
+                if(item[0].firstChild.data == "for_loop"):
+                    init_variable_data = mydoc.getElementsByTagName('init_variable')
+                    condition_for_data = mydoc.getElementsByTagName('condition_for')
+                    condition_data = mydoc.getElementsByTagName('condition')
+                    variable1_data = mydoc.getElementsByTagName('variable1')
+                    variable2_data = mydoc.getElementsByTagName('variable2')
+                    action = xml.Element('Action')
+                    action.set('type', 'inputtext')
+                    init_variable = xml.Element('init_variable')
+                    condition_for = xml.Element('condition_for')
+                    condition = xml.Element('condition')
+                    variable1 = xml.Element('variable1')
+                    variable2 = xml.Element('variable2')
+                    init_variable.text = init_variable_data[0].firstChild.data
+                    condition_for.text = condition_for_data[0].firstChild.data
+                    condition.text = condition_data[0].firstChild.data
+                    variable1.text = variable1_data[0].firstChild.data
+                    variable2.text = variable2_data[0].firstChild.data
+                    action.append(init_variable)
+                    action.append(condition_for)
+                    action.append(condition)
+                    action.append(variable1)
+                    action.append(variable2)
+                    root.append(action)
+                if(item[0].firstChild.data in ['split_string', 'list_get_value']):
+                    delimiter_data = mydoc.getElementsByTagName('delimiter')
+                    variable1_data = mydoc.getElementsByTagName('variable1')
+                    variable2_data = mydoc.getElementsByTagName('variable2')
+                    action = xml.Element('Action')
+                    action.set('type', item[0].firstChild.data)
+                    delimiter = xml.Element('delimiter')
+                    variable1 = xml.Element('variable1')
+                    variable2 = xml.Element('variable2')
+                    delimiter.text = delimiter_data[0].firstChild.data
+                    variable1.text = variable1_data[0].firstChild.data
+                    variable2.text = variable2_data[0].firstChild.data
+                    action.append(variable1)
+                    action.append(variable2)
+                    action.append(delimiter)
+                    root.append(action)
+                if(item[0].firstChild.data in ['count', 'index', 'find', 'strip', 'lstrip','rstrip']):
+                    variable1_data = mydoc.getElementsByTagName('variable1')
+                    variable2_data = mydoc.getElementsByTagName('variable2')
+                    action = xml.Element('Action')
+                    action.set('type', item[0].firstChild.data )
+                    variable1 = xml.Element('variable1')
+                    variable2 = xml.Element('variable2')
+                    variable1.text = variable1_data[0].firstChild.data
+                    variable2.text = variable2_data[0].firstChild.data
+                    action.append(variable1)
+                    action.append(variable2)
+                    root.append(action)
+                if(item[0].firstChild.data == "concate_string"):
+                    string1_data = mydoc.getElementsByTagName('string1')
+                    string2_data = mydoc.getElementsByTagName('string2')
+                    save_to_data = mydoc.getElementsByTagName('save_to')
+                    action = xml.Element('Action')
+                    action.set('type', item[0].firstChild.data )
+                    string1 = xml.Element('string1')
+                    string2 = xml.Element('string2')
+                    save_to = xml.Element('save_to')
+                    string1.text = string1_data[0].firstChild.data
+                    string2.text = string2_data[0].firstChild.data
+                    save_to.text = save_to_data[0].firstChild.data
+                    action.append(string1)
+                    action.append(string2)
+                    action.append(save_to)
+                    root.append(action)
+                if(item[0].firstChild.data in ["increment", 'decrement']):
+                    _variable_data = mydoc.getElementsByTagName('_variable')
+                    _variable_by_data = mydoc.getElementsByTagName('_variable_by')
+                    save_to_data = mydoc.getElementsByTagName('save_to')
+                    action = xml.Element('Action')
+                    action.set('type', item[0].firstChild.data )
+                    _variable = xml.Element('_variable')
+                    _variable_by = xml.Element('_variable_by')
+                    save_to = xml.Element('save_to')
+                    _variable.text = _variable_data[0].firstChild.data
+                    _variable_by.text = _variable_by_data[0].firstChild.data
+                    save_to.text = save_to_data[0].firstChild.data
+                    action.append(_variable)
+                    action.append(_variable_by)
+                    action.append(save_to)
                     root.append(action)
     
         tree = xml.ElementTree(root)   
